@@ -1,0 +1,52 @@
+services:
+  backend:
+    build: ./backend
+    container_name: backend-laravel
+    restart: always
+    ports:
+      - "8000:80"
+    depends_on:
+      - postgres
+    environment:
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=kanban
+      - DB_USERNAME=kanban_db
+      - DB_PASSWORD=uniube@2025
+    networks:
+    
+      - app_network
+
+  frontend:
+    build: ./frontend
+    container_name: frontend-react
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - app_network
+
+  postgres:
+    image: postgres:15
+    container_name: db-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: kaban
+      POSTGRES_USER: kanban_db
+      POSTGRES_PASSWORD: uniube@2025
+    ports:
+      - "5432:5432"
+    networks:
+      - app_network
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  pgdata:

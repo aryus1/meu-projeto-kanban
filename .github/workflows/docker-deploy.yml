@@ -1,0 +1,40 @@
+name: Deploy Docker para Google Cloud
+
+on:
+  push:
+    branches: [ "main" ]  # ou "master", dependendo do seu repositório
+
+jobs:
+  docker-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout do código
+      uses: actions/checkout@v3
+
+    - name: Autenticar no Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+    - name: Configurar Docker para usar o Artifact Registry
+      run: |
+        gcloud auth configure-docker southamerica-east1-docker.pkg.dev
+
+    - name: Buildar imagens Docker
+      run: |
+        docker build -t frontend:latest ./frontend
+        docker build -t backend:latest ./backend
+        docker pull postgres:14
+
+    - name: Taguear imagens
+      run: |
+        docker tag frontend:latest southamerica-east1-docker.pkg.dev/dauntless-motif-455700-p3/kanban/frontend:latest
+        docker tag backend:latest southamerica-east1-docker.pkg.dev/dauntless-motif-455700-p3/kanban/backend:latest
+        docker tag postgres:14 southamerica-east1-docker.pkg.dev/dauntless-motif-455700-p3/kanban/postgres:14
+
+    - name: Enviar imagens para o Google Artifact Registry
+      run: |
+        docker push southamerica-east1-docker.pkg.dev/dauntless-motif-455700-p3/kanban/frontend:latest
+        docker push southamerica-east1-docker.pkg.dev/dauntless-motif-455700-p3/kanban/backend:latest
+        docker push southamerica-east1-docker.pkg.dev/dauntless-motif-455700-p3/kanban/postgres:14
