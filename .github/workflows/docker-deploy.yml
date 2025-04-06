@@ -15,7 +15,7 @@ jobs:
     - name: Autenticar no Google Cloud
       uses: google-github-actions/auth@v2
       with:
-        credentials_json: '${{ secrets.meu-projeto-kanban }}'
+        credentials_json: '${{ secrets.MEU_PROJETO_KANBAN}}'
 
     - name: Configurar Docker para usar o Artifact Registry
       run: |
@@ -38,7 +38,7 @@ jobs:
         docker push southamerica-east1-docker.pkg.dev/dauntless-motif-455700-p3/kanban/frontend:latest
         docker push southamerica-east1-docker.pkg.dev/dauntless-motif-455700-p3/kanban/backend:latest
         docker push southamerica-east1-docker.pkg.dev/dauntless-motif-455700-p3/kanban/postgres:14
-# Projeto Kanban
+# MEU Projeto Kanban
 Deploy automatizado com Docker e Google Cloud.
 
 
