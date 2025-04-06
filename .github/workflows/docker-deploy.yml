@@ -38,3 +38,5 @@ jobs:
         docker push southamerica-east1-docker.pkg.dev/dauntless-motif-455700-p3/kanban/frontend:latest
         docker push southamerica-east1-docker.pkg.dev/dauntless-motif-455700-p3/kanban/backend:latest
         docker push southamerica-east1-docker.pkg.dev/dauntless-motif-455700-p3/kanban/postgres:14
+# Commit de teste para forçar execução do workflow
+
