@@ -1,5 +1,6 @@
 // frontend/src/App.js
 // teste
+// teste 2
 import React from "react";
 
 function App() {
